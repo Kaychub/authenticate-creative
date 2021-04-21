@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // connect to the database
-mongoose.connect('mongodb://localhost:27017/todo', {
+mongoose.connect('mongodb://localhost:27017/palette-auth', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
