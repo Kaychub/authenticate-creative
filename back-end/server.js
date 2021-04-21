@@ -12,6 +12,10 @@ app.use(bodyParser.urlencoded({
 // parse application/json
 app.use(bodyParser.json());
 
+// import the users module and setup its API path
+const users = require("./users.js");
+app.use("/api/users", users.routes);
+
 // connect to the database
 mongoose.connect('mongodb://localhost:27017/palette-auth', {
   useNewUrlParser: true,
