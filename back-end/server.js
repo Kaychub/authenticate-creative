@@ -22,6 +22,18 @@ mongoose.connect('mongodb://localhost:27017/palette-auth', {
   useUnifiedTopology: true
 });
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+    name: 'session',
+    keys: ['secretValue'],
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
 const paletteSchema = new mongoose.Schema({
   name: String,
   creationDate: Date,
