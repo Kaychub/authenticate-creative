@@ -35,6 +35,10 @@ mongoose.connect('mongodb://localhost:27017/palette-auth', {
 
 
 const paletteSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User"
+  },
   name: String,
   creationDate: Date,
   isFavorite: Boolean,
