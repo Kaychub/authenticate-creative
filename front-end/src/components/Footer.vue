@@ -3,7 +3,7 @@
         <div id='spacer'></div>
         <footer>
             <p>Made by Caleb Hunt</p>
-            <a href="https://github.com/Kaychub/mongo-express-creative"><img src="/images/GitHub-Mark-32px.png" title="Github Repo for this project" ></a>
+            <a href="https://github.com/Kaychub/authenticate-creative"><img src="/images/GitHub-Mark-32px.png" title="Github Repo for this project" ></a>
         </footer>
     </div>
 </template>
