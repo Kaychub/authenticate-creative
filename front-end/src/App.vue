@@ -2,8 +2,12 @@
   <div id="app">
     <img src='/vue-creative-logo.svg' />
     <div id="nav">
+      <div v-if='this.$root.$data.user'>
+        <p>Logged in!</p>
+        <button @click='logout'>Log out</button>
+      </div>
       <div class='select-palette'>
-        <router-link to="/">Select Palette</router-link>
+        <router-link to="/Select">Select Palette</router-link>
       </div>
       <div class='other-nav' v-if='this.$root.$data.selectedPaletteID != 0'>
         <!-- <router-link to="/">Home</router-link> | -->
@@ -19,10 +23,21 @@
 
 <script>
 import Footer from './components/Footer.vue';
+import axios from 'axios';
 
 export default {
   components: {
     Footer,
+  },
+  methods: {
+    async logout() {
+      try {
+        await axios.delete('/api/users');
+        this.$root.$data.user = null;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
 </script>
