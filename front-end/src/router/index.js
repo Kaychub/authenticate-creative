@@ -4,6 +4,7 @@ import Create from '../views/Create.vue'
 import Palette from '../views/Palette.vue'
 import SelectPalette from '../views/select-palette.vue'
 import Edit from '../views/Edit.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/edit/:paletteID/:swatchID',
     name: 'Edit',
     component: Edit,
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home,
   }
 ]
 
