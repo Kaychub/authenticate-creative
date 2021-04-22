@@ -84,8 +84,6 @@ export default {
 
 .logo-login {
   display: grid;
-  /* flex-direction: row; */
-  /* justify-content: space-between; */
   grid-template-columns: 33% 33% 33%;
 }
 
