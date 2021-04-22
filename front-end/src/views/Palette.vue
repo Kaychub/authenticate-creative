@@ -20,8 +20,10 @@
               </div>
             </div>
             <div v-else>
-              <h2>This palette is empty! Your swatches will show up here!</h2>
-              <h2><router-link class='router-link' to='/create'>Add swatches here</router-link></h2>
+              <h2>This palette is empty! New swatches will show up here!</h2>
+              <h2 v-if='this.$root.$data.user && this.$root.$data.selectedPaletteUserID == this.$root.$data.user._id'>
+                <router-link class='router-link' to='/create'>Add swatches here</router-link>
+              </h2>
             </div> 
           </div>
         </div>

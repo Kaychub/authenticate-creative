@@ -73,7 +73,7 @@ app.get('/api/palettes', async (req, res) => {
 
 app.get('/api/palettes/:paletteID', async (req, res) => {
   try {
-    const palette = await Palette.findOne({_id: req.params.paletteID});
+    const palette = await Palette.findOne({_id: req.params.paletteID}).populate('user');
     if (!palette) {
       res.send(404);
       return;
