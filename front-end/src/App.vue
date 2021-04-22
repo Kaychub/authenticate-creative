@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div class='logo-login'>
+      <div class='formatting' />
       <img src='/vue-creative-logo.svg' />
       <div class='login-info'>
         <div class='logged-in' v-if='this.$root.$data.user'>
@@ -83,13 +84,14 @@ export default {
 
 .logo-login {
   display: grid;
-  grid-template-columns: 48% 25% 25%;
-  grid-template-areas: "None logo login";
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+  grid-template-columns: 33% 33% 33%;
 }
 
 img {
   max-width: 30px;
-  grid-area: logo;
+  margin: auto;
 }
 
 #nav {
@@ -102,7 +104,6 @@ img {
 }
 
 .login-info {
-  grid-area: login;
   display: flex;
   flex-direction: column;
   align-items: center;
