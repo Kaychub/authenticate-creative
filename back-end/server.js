@@ -63,10 +63,10 @@ app.post('/api/palettes', validUser, async (req, res) => {
 
 app.get('/api/palettes', async (req, res) => {
   try {
-    const palettes = await Palette.find(); // find all palettes
+    const palettes = await Palette.find().populate('user'); // find all palettes
     res.send(palettes);
   } catch (error) {
-    console.log(500);
+    console.log(error);
     res.sendStatus(500);
   }
 });

@@ -37,6 +37,7 @@
         </div>
         <p class='palette-name'>{{ palette.name }}</p>
         <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
+        <div class='created-by'>Created by {{ palette.user.displayName }}</div>
       </div>
     </div>
   </div>
@@ -122,8 +123,8 @@ export default {
         this.selected = this.$root.$data.selectedPaletteID; */
         // Put user's palettes first, then append the rest
         if (this.$root.$data.user) {
-          this.userPalettes = allPalettes.filter(el => el.user == this.$root.$data.user._id);
-          this.otherPalettes = allPalettes.filter(el => el.user != this.$root.$data.user._id);
+          this.userPalettes = allPalettes.filter(el => el.user._id == this.$root.$data.user._id);
+          this.otherPalettes = allPalettes.filter(el => el.user._id != this.$root.$data.user._id);
         } else {
           this.otherPalettes = allPalettes;
         }
