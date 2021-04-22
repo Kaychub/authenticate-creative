@@ -3,7 +3,7 @@
   <div class='form'>
     <input type='text' v-model='name' placeholder='Palette name' />
     <div class='buttons'>
-      <button :class='{favorited: this.isFavorite}' @click='isFavorite = !isFavorite'>&#10084;</button>
+      <!-- <button :class='{favorited: this.isFavorite}' @click='isFavorite = !isFavorite'>&#10084;</button> -->
       <button @click='submitPalette()'>Add palette</button>
     </div>
   </div>
@@ -11,7 +11,7 @@
   <div class='palettes'>
     <div class='palette' v-for='palette in palettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
       <div class='heart-select'>
-        <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button>
+        <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
         <button class='select-button' @click='selectP(palette._id)'>Select</button> 
       </div>
       <input class='palette-name' v-model='palette.name' type='text'>
@@ -34,7 +34,7 @@ export default {
     palettes: [],
     selectedP: 0,
     name: '',
-    isFavorite: false,
+    // isFavorite: false,
   }},
   created() {
     this.getPalettes();
@@ -47,24 +47,24 @@ export default {
       this.$root.$data.selectedPaletteID = paletteID;
       this.selectedP = paletteID;
     },
-    async toggleFavorite(palette) {
-      try {
-        await axios.put('/api/palettes/' + palette._id, {
-          name: palette.name,
-          creationDate: palette.creationDate,
-          isFavorite: !palette.isFavorite,
-        });
-        this.getPalettes();
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async toggleFavorite(palette) {
+    //   try {
+    //     await axios.put('/api/palettes/' + palette._id, {
+    //       name: palette.name,
+    //       creationDate: palette.creationDate,
+    //       isFavorite: !palette.isFavorite,
+    //     });
+    //     this.getPalettes();
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
     async renamePalette(palette) {
       try {
         await axios.put('/api/palettes/' + palette._id, {
           name: palette.name,
           creationDate: palette.creationDate,
-          isFavorite: palette.isFavorite,
+          // isFavorite: palette.isFavorite,
         });
         this.getPalettes();
       } catch (error) {
@@ -81,32 +81,34 @@ export default {
         d = d.toLocaleDateString();
         await axios.post('/api/palettes', {
           name: this.name,
-          isFavorite: this.isFavorite,
+          // isFavorite: this.isFavorite,
           creationDate: d,
         });
         this.name = '';
-        this.isFavorite = false;
+        // this.isFavorite = false;
         this.getPalettes()
       } catch (error) {
         console.log(error);
       }
     },
     async getPalettes() {
-      // Put favorites first, then append the rest
       try {
         const response = await axios.get('/api/palettes');
         let allPalettes = response.data;
-        let favorites = allPalettes.filter(el => el.isFavorite);
-        let nonfavorites = allPalettes.filter(el => !el.isFavorite);
-        this.palettes = favorites.concat(nonfavorites);
-        this.selected = this.$root.$data.selectedPaletteID;
+        console.log(allPalettes);
+        // Put favorites first, then append the rest
+        // let favorites = allPalettes.filter(el => el.isFavorite);
+        // let nonfavorites = allPalettes.filter(el => !el.isFavorite);
+        // this.palettes = favorites.concat(nonfavorites);
+        // this.selected = this.$root.$data.selectedPaletteID;
       } catch (error) {
         console.log(error);
       }
     },
     async deletePalette(paletteID) {
       try {
-        await axios.delete('/api/palettes/' + paletteID);
+        const response = await axios.delete('/api/palettes/' + paletteID);
+        console.log(response);
         if (paletteID === this.$root.$data.selectedPaletteID) {
           this.$root.$data.selectedPaletteID = 0;
           this.selectedP = 0;
@@ -186,9 +188,13 @@ input {
   grid-gap: 2%;
 }
 
-.buttons {
+/* .buttons {
   display: grid;
   grid-template-columns: 50% 50%;
+} */
+
+.buttons button {
+  width: 100%;
 }
 
 .selected {
@@ -215,9 +221,9 @@ input {
   flex-wrap: wrap;
 }
 
-.favorited {
+/* .favorited {
   color: red !important;
-}
+} */
 
 .creation-date {
   text-align: center;
