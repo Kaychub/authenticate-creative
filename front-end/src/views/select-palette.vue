@@ -65,7 +65,7 @@ export default {
   methods: {
     async selectP(palette) {
       this.$root.$data.selectedPaletteID = palette._id;
-      this.$root.$data.selectedPaletteUserID = palette.user;
+      this.$root.$data.selectedPaletteUserID = palette.user._id;
       this.selectedP = palette._id;
     },
     // async toggleFavorite(palette) {
