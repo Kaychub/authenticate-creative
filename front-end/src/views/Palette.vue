@@ -17,7 +17,6 @@
                     <div class='color-code'>{{ showCodes ? color : ""}}</div>
                   </div>
                 </div>
-                <!-- <button class='removeButton' @click='removeSwatch(swatch)'>X</button> -->
               </div>
             </div>
             <div v-else>
