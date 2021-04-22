@@ -97,6 +97,10 @@ img {
     display: flex;
     flex-direction: column;
   }
+  .user-logged-in-nav {
+    display: flex;
+    flex-direction: column;
+  }
 } 
 
 #nav a {
