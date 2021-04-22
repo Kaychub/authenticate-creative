@@ -149,7 +149,7 @@ const swatchSchema = new mongoose.Schema({
 
 const Swatch = mongoose.model('Swatch', swatchSchema);
 
-app.post('/api/palettes/:paletteID/swatches', async (req, res) => {
+app.post('/api/palettes/:paletteID/swatches', validUser, async (req, res) => {
   try {
     let palette = await Palette.findOne({_id: req.params.paletteID});
     if (!palette) {
@@ -163,6 +163,7 @@ app.post('/api/palettes/:paletteID/swatches', async (req, res) => {
       });
     }
     let swatch = new Swatch({
+      user: req.user,
       palette: palette,
       name: req.body.name,
       isAdded: req.body.isAdded,
@@ -191,7 +192,7 @@ app.get('/api/palettes/:paletteID/swatches', async (req, res) => {
   }
 });
 
-app.put('/api/palettes/:paletteID/swatches/:swatchID', async (req, res) => {
+app.put('/api/palettes/:paletteID/swatches/:swatchID', validUser, async (req, res) => {
   try {
     let swatch = await Swatch.findOne({_id: req.params.swatchID, palette: req.params.paletteID});
     if (!swatch) {
@@ -215,7 +216,7 @@ app.put('/api/palettes/:paletteID/swatches/:swatchID', async (req, res) => {
   }
 });
 
-app.delete('/api/palettes/:paletteID/swatches/:swatchID', async (req, res) => {
+app.delete('/api/palettes/:paletteID/swatches/:swatchID', validUser, async (req, res) => {
   try {
     let swatch = await Swatch.findOne({_id: req.params.swatchID, palette: req.params.paletteID});
     if (!swatch) {
