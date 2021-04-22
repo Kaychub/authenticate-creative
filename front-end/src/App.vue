@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <img src='/vue-creative-logo.svg' />
-    <div class='login-info'>
-      <div v-if='this.$root.$data.user'>
-        <p>Logged in as {{this.$root.$data.user.displayName}}</p>
-        <button @click='logout'>Log out</button>
+    <div class='logo-login'>
+      <img src='/vue-creative-logo.svg' />
+      <div class='login-info'>
+        <div class='logged-in' v-if='this.$root.$data.user'>
+          <h4>{{this.$root.$data.user.displayName}}</h4>
+          <button @click='logout'>Log out</button>
+        </div>
       </div>
-      <div v-else-if='this.$route.name != "Login"'>
-        <button @click='goToLogin()'>Log in here</button>
-      </div>
-      <div v-else>
-        <h2>Log in or register here</h2>
-        <p>Or view others' palettes without logging in</p>
-      </div>
+    </div>
+    <div v-if='!this.$root.$data.user && this.$route.name != "Login"'>
+      <button @click='goToLogin()'>Log in here</button>
+    </div>
+    <div v-else-if='!this.$root.$data.user'>
+      <h2>Log in or register here</h2>
+      <p>Or view others' palettes without logging in</p>
     </div>
     <div id="nav">
       <div class='select-palette'>
@@ -79,8 +81,15 @@ export default {
   /* color: #2c3e50; */
 }
 
+.logo-login {
+  display: grid;
+  grid-template-columns: 50% 25% 25%;
+  grid-template-areas: "None logo login";
+}
+
 img {
   max-width: 30px;
+  grid-area: logo;
 }
 
 #nav {
@@ -90,6 +99,33 @@ img {
 
 .router-link {
   color: #1099B9;
+}
+
+.login-info {
+  grid-area: login;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.logged-in {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.logged-in h4 {
+  margin: 5px 5px;
+}
+
+.logged-in button {
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 @media (max-width:500px) {
