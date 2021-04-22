@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div v-if='!this.$root.$data.user && this.$route.name != "Login"'>
+    <div class='log-in-here' v-if='!this.$root.$data.user && this.$route.name != "Login"'>
       <button @click='goToLogin()'>Log in here</button>
     </div>
     <div v-else-if='!this.$root.$data.user'>
@@ -126,6 +126,10 @@ img {
   width: 100%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+
+.log-in-here {
+  margin: 10px 0;
 }
 
 @media (max-width:500px) {
