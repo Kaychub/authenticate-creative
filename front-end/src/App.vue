@@ -6,16 +6,19 @@
         <p>Logged in as {{this.$root.$data.user.displayName}}</p>
         <button @click='logout'>Log out</button>
       </div>
+      <div v-else-if='this.$route.name != "Login"'>
+        <button @click='goToLogin()'>Log in here</button>
+      </div>
       <div v-else>
-        <router-link to='/'>Log in here</router-link>
+        <h2>Log in or register here</h2>
+        <p>Or view others' palettes without logging in</p>
       </div>
     </div>
     <div id="nav">
       <div class='select-palette'>
         <router-link to="/Select">Select Palette</router-link>
       </div>
-      <div class='other-nav'>
-        <!-- <router-link to="/">Home</router-link> | -->
+      <div class='other-nav' v-if='this.$root.$data.selectedPaletteID'>
         <span class='user-logged-in-nav' v-if='this.$root.$data.user && this.$root.$data.selectedPaletteUserID === this.$root.$data.user._id'>
           <router-link to="/create">Create Swatches</router-link> |
           <router-link to="/edit/:paletteID/:swatchID">Edit Swatches</router-link> |
@@ -49,9 +52,18 @@ export default {
       try {
         await axios.delete('/api/users');
         this.$root.$data.user = null;
+        this.$root.$data.selectedPaletteID = 0;
+        this.$root.$data.selectedPaletteUserID = 0;
+        this.$router.push({ path: '/' });
       } catch (error) {
         console.log(error);
       }
+    },
+    goToLogin() {
+      this.$root.$data.user = null;
+      this.$root.$data.selectedPaletteID = 0;
+      this.$root.$data.selectedPaletteUserID = 0;
+      this.$router.push({ path: '/' });
     }
   }
 }
