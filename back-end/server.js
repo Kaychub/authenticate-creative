@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 // import the users module and setup its API path
 const users = require("./users.js");
 app.use("/api/users", users.routes);
+const validUser = users.valid;
 
 // connect to the database
 mongoose.connect('mongodb://localhost:27017/palette-auth', {
@@ -46,8 +47,9 @@ const paletteSchema = new mongoose.Schema({
 
 const Palette = mongoose.model('Palette', paletteSchema);
 
-app.post('/api/palettes', async (req, res) => {
+app.post('/api/palettes', validUser, async (req, res) => {
   const palette = new Palette({
+    user: req.user,
     name: req.body.name,
     creationDate: req.body.creationDate,
     isFavorite: req.body.isFavorite,
@@ -85,12 +87,18 @@ app.get('/api/palettes/:paletteID', async (req, res) => {
   }
 })
 
-app.delete('/api/palettes/:paletteID', async (req, res) => {
+app.delete('/api/palettes/:paletteID', validUser, async (req, res) => {
   try {
     let palette = await Palette.findOne({_id: req.params.paletteID});
     if (!palette) {
       res.send(404);
       return;
+    }
+    // make sure the user owns this
+    if (palette.user.toString() !== req.user._id.toString()) {
+      return res.status(403).send({
+        message: 'User doesn\'t own this palette'
+      });
     }
     await palette.delete();
     res.sendStatus(200);
@@ -100,12 +108,18 @@ app.delete('/api/palettes/:paletteID', async (req, res) => {
   }
 });
 
-app.put('/api/palettes/:paletteID', async (req, res) => {
+app.put('/api/palettes/:paletteID', validUser, async (req, res) => {
   try {
     let palette = await Palette.findOne({_id: req.params.paletteID});
     if (!palette) {
       res.send(404);
       return;
+    }
+    // make sure the user owns this
+    if (palette.user.toString() !== req.user._id.toString()) {
+      return res.status(403).send({
+        message: 'User doesn\'t own this palette'
+      });
     }
     palette.name = req.body.name;
     palette.creationDate = req.body.creationDate;
@@ -124,6 +138,10 @@ const swatchSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Palette',
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User"
+  },
   name: String,
   isAdded: Boolean,
   colors: Array,
@@ -137,6 +155,12 @@ app.post('/api/palettes/:paletteID/swatches', async (req, res) => {
     if (!palette) {
       res.send(404);
       return;
+    }
+    // Make sure the user owns the palette where this swatch belongs
+    if (palette.user.toString() !== req.user._id.toString()) {
+      return res.status(403).send({
+        message: 'User doesn\'t have acces to this palette'
+      });
     }
     let swatch = new Swatch({
       palette: palette,
@@ -174,6 +198,12 @@ app.put('/api/palettes/:paletteID/swatches/:swatchID', async (req, res) => {
       res.send(404);
       return;
     }
+    // Make sure the user owns this swatch
+    if (swatch.user.toString() !== req.user._id.toString()) {
+      return res.status(403).send({
+        message: 'User doesn\'t own this swatch'
+      });
+    }
     swatch.name = req.body.name;
     swatch.isAdded = req.body.isAdded;
     swatch.colors = req.body.colors;
@@ -191,6 +221,12 @@ app.delete('/api/palettes/:paletteID/swatches/:swatchID', async (req, res) => {
     if (!swatch) {
       res.send(404);
       return;
+    }
+    // Make sure the user owns the swatch
+    if (swatch.user.toString() !== req.user._id.toString()) {
+      return res.status(403).send({
+        message: 'User doesn\'t own this swatch'
+      });
     }
     await swatch.delete();
     res.sendStatus(200);
