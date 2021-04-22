@@ -36,8 +36,10 @@
           <button class='select-button' @click='selectP(palette)'>Select</button> 
         </div>
         <p class='palette-name'>{{ palette.name }}</p>
-        <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
-        <div class='created-by'>Created by {{ palette.user.displayName }}</div>
+        <div class='palette-creation-info'>
+          <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
+          <div class='created-by'>Created by {{ palette.user.displayName }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -266,7 +268,18 @@ input {
 }
 
 .other-palettes .creation-date {
-  padding: 10px;
+  padding: 2px 10px;
+}
+
+.other-palettes .palette-name {
+  margin: 0 5px;
+}
+
+.palette-creation-info {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid black;
+  margin-top: 10px;
 }
 
 /* .favorited {
