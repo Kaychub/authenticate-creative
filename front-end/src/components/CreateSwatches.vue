@@ -20,7 +20,7 @@
   </div>
   <div v-else>
     <h2>It looks like you haven't selected a palette yet!</h2>
-    <h2><router-link class='router-link' to='/'>Select a palette here</router-link></h2>
+    <h2><router-link class='router-link' to='/select'>Select a palette here</router-link></h2>
   </div>
 </div>
 </template>
