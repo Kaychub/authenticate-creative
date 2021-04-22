@@ -97,24 +97,67 @@ TODO
 -> Add media queries
 --> When screen gets small, make reg/login stack vertical
 */
-.reg-login {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  font-size: 18px;
+@media (max-width:500px) {
+  .reg-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+  }
+  .register, .login {
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .register {
+    margin-bottom: 20px;
+  }
 }
 
-.register, .login {
-  border: 1px solid black;
-  border-radius: 10px;
-  width: 35%;
+@media (min-width:500px) {
+  .reg-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 18px;
+  }
+  .register, .login {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 35%;
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .register button, .login button {
   margin-top: auto;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+input {
+  /* border: none; */
+  margin-bottom: 2px;
+  padding: 8px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  width: 95%;
+  /* border-top-left-radius: 10px;
+  border-top-right-radius: 10px; */
+  border-radius: 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  height: 30px;
+  font-size: 18px;
 }
 
 </style>
