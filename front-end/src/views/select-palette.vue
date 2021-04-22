@@ -3,7 +3,6 @@
   <div class='form' v-if='this.$root.$data.user'>
     <input type='text' v-model='name' placeholder='Palette name' />
     <div class='buttons'>
-      <!-- <button :class='{favorited: this.isFavorite}' @click='isFavorite = !isFavorite'>&#10084;</button> -->
       <button @click='submitPalette()'>Add palette</button>
     </div>
   </div>
@@ -18,7 +17,6 @@
     <div class='user-palettes'>
       <div class='palette' v-for='palette in userPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
         <div class='heart-select'>
-          <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
           <button class='select-button' @click='selectP(palette)'>Select</button> 
         </div>
         <input class='palette-name' v-model='palette.name' type='text'>
@@ -56,7 +54,6 @@ export default {
     otherPalettes: [],
     selectedP: 0,
     name: '',
-    // isFavorite: false,
   }},
   created() {
     this.getPalettes();
@@ -70,24 +67,11 @@ export default {
       this.$root.$data.selectedPaletteUserID = palette.user._id;
       this.selectedP = palette._id;
     },
-    // async toggleFavorite(palette) {
-    //   try {
-    //     await axios.put('/api/palettes/' + palette._id, {
-    //       name: palette.name,
-    //       creationDate: palette.creationDate,
-    //       isFavorite: !palette.isFavorite,
-    //     });
-    //     this.getPalettes();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
     async renamePalette(palette) {
       try {
         await axios.put('/api/palettes/' + palette._id, {
           name: palette.name,
           creationDate: palette.creationDate,
-          // isFavorite: palette.isFavorite,
         });
         this.getPalettes();
       } catch (error) {
@@ -104,11 +88,9 @@ export default {
         d = d.toLocaleDateString();
         await axios.post('/api/palettes', {
           name: this.name,
-          // isFavorite: this.isFavorite,
           creationDate: d,
         });
         this.name = '';
-        // this.isFavorite = false;
         this.getPalettes()
       } catch (error) {
         console.log(error);
@@ -118,11 +100,6 @@ export default {
       try {
         const response = await axios.get('/api/palettes');
         let allPalettes = response.data;
-        /* // Put favorites first, then append the rest
-        let favorites = allPalettes.filter(el => el.isFavorite);
-        let nonfavorites = allPalettes.filter(el => !el.isFavorite);
-        this.palettes = favorites.concat(nonfavorites);
-        this.selected = this.$root.$data.selectedPaletteID; */
         // Put user's palettes first, then append the rest
         if (this.$root.$data.user) {
           this.userPalettes = allPalettes.filter(el => el.user._id == this.$root.$data.user._id);
@@ -142,7 +119,6 @@ export default {
           this.$root.$data.selectedPaletteID = 0;
           this.selectedP = 0;
         }
-        // console.log(response);
         this.getPalettes();
       } catch (error) {
         console.log(error);
@@ -218,11 +194,6 @@ input {
   grid-gap: 1%;
 }
 
-/* .buttons {
-  display: grid;
-  grid-template-columns: 50% 50%;
-} */
-
 .buttons button {
   width: 100%;
 }
@@ -281,10 +252,6 @@ input {
   border-top: 1px solid black;
   margin-top: 10px;
 }
-
-/* .favorited {
-  color: red !important;
-} */
 
 .creation-date {
   text-align: center;
