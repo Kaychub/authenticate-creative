@@ -3,6 +3,7 @@
         <div id='spacer'></div>
         <footer>
             <p>Made by Caleb Hunt</p>
+            <p>6 Hours</p>
             <a href="https://github.com/Kaychub/authenticate-creative"><img src="/images/GitHub-Mark-32px.png" title="Github Repo for this project" ></a>
         </footer>
     </div>
