@@ -14,10 +14,12 @@
       <div class='select-palette'>
         <router-link to="/Select">Select Palette</router-link>
       </div>
-      <div class='other-nav' v-if='this.$root.$data.selectedPaletteID != 0'>
+      <div class='other-nav'>
         <!-- <router-link to="/">Home</router-link> | -->
-        <router-link to="/create">Create Swatches</router-link> |
-        <router-link to="/edit/:paletteID/:swatchID">Edit Swatches</router-link> |
+        <span class='user-logged-in-nav' v-if='this.$root.$data.user && this.$root.$data.selectedPaletteUserID === this.$root.$data.user._id'>
+          <router-link to="/create">Create Swatches</router-link> |
+          <router-link to="/edit/:paletteID/:swatchID">Edit Swatches</router-link> |
+        </span>
         <router-link to="/palette">View Palette</router-link>
       </div>
     </div>

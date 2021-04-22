@@ -19,7 +19,7 @@
       <div class='palette' v-for='palette in userPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
         <div class='heart-select'>
           <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
-          <button class='select-button' @click='selectP(palette._id)'>Select</button> 
+          <button class='select-button' @click='selectP(palette)'>Select</button> 
         </div>
         <input class='palette-name' v-model='palette.name' type='text'>
         <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
@@ -33,7 +33,7 @@
     <div class='other-palettes'>
       <div class='palette' v-for='palette in otherPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
         <div class='heart-select'>
-          <button class='select-button' @click='selectP(palette._id)'>Select</button> 
+          <button class='select-button' @click='selectP(palette)'>Select</button> 
         </div>
         <p class='palette-name'>{{ palette.name }}</p>
         <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
@@ -62,9 +62,10 @@ export default {
   computed: {
   },
   methods: {
-    async selectP(paletteID) {
-      this.$root.$data.selectedPaletteID = paletteID;
-      this.selectedP = paletteID;
+    async selectP(palette) {
+      this.$root.$data.selectedPaletteID = palette._id;
+      this.$root.$data.selectedPaletteUserID = palette.user;
+      this.selectedP = palette._id;
     },
     // async toggleFavorite(palette) {
     //   try {
