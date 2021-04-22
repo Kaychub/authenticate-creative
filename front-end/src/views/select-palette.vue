@@ -1,24 +1,38 @@
 <template>
 <div class='content'>
-  <div class='form'>
+  <div class='form' v-if='this.$root.$data.user'>
     <input type='text' v-model='name' placeholder='Palette name' />
     <div class='buttons'>
       <!-- <button :class='{favorited: this.isFavorite}' @click='isFavorite = !isFavorite'>&#10084;</button> -->
       <button @click='submitPalette()'>Add palette</button>
     </div>
   </div>
-
+  <div v-else>
+    <h2>Logged in users can create their own palettes!</h2>
+  </div>
   <div class='palettes'>
-    <div class='palette' v-for='palette in palettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
-      <div class='heart-select'>
-        <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
-        <button class='select-button' @click='selectP(palette._id)'>Select</button> 
+    <div class='user-palettes'>
+      <div class='palette' v-for='palette in userPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
+        <div class='heart-select'>
+          <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
+          <button class='select-button' @click='selectP(palette._id)'>Select</button> 
+        </div>
+        <input class='palette-name' v-model='palette.name' type='text'>
+        <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
+        <div class='rename-x'>
+          <button @click='renamePalette(palette)'>Rename</button>
+          <button @click='deletePalette(palette._id)'>X</button>
+        </div>
       </div>
-      <input class='palette-name' v-model='palette.name' type='text'>
-      <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
-      <div class='rename-x'>
-        <button @click='renamePalette(palette)'>Rename</button>
-        <button @click='deletePalette(palette._id)'>X</button>
+    </div>
+    <div class='other-palettes'>
+      <div class='palette' v-for='palette in otherPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
+        <div class='heart-select'>
+          <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
+          <button class='select-button' @click='selectP(palette._id)'>Select</button> 
+        </div>
+        <input class='palette-name' v-model='palette.name' type='text'>
+        <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
       </div>
     </div>
   </div>
@@ -31,7 +45,8 @@ import axios from 'axios';
 export default {
   name: 'SelectPalette',
   data: () => { return {
-    palettes: [],
+    userPalettes: [],
+    otherPalettes: [],
     selectedP: 0,
     name: '',
     // isFavorite: false,
@@ -95,12 +110,19 @@ export default {
       try {
         const response = await axios.get('/api/palettes');
         let allPalettes = response.data;
-        console.log(allPalettes);
-        // Put favorites first, then append the rest
-        // let favorites = allPalettes.filter(el => el.isFavorite);
-        // let nonfavorites = allPalettes.filter(el => !el.isFavorite);
-        // this.palettes = favorites.concat(nonfavorites);
-        // this.selected = this.$root.$data.selectedPaletteID;
+        /* // Put favorites first, then append the rest
+        let favorites = allPalettes.filter(el => el.isFavorite);
+        let nonfavorites = allPalettes.filter(el => !el.isFavorite);
+        this.palettes = favorites.concat(nonfavorites);
+        this.selected = this.$root.$data.selectedPaletteID; */
+        // Put user's palettes first, then append the rest
+        if (this.$root.$data.user) {
+          this.userPalettes = allPalettes.filter(el => el.user == this.$root.$data.user._id);
+          this.otherPalettes = allPalettes.filter(el => el.user != this.$root.$data.user._id);
+        } else {
+          this.otherPalettes = allPalettes;
+        }
+        this.selected = this.$root.$data.selectedPaletteID;
       } catch (error) {
         console.log(error);
       }
@@ -214,6 +236,22 @@ input {
 }
 
 .palettes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.user-palettes {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.other-palettes {
   display: flex;
   flex-direction: row;
   justify-content: center;
