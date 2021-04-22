@@ -11,6 +11,10 @@
     <h2>Logged in users can create their own palettes!</h2>
   </div>
   <div class='palettes'>
+    <div v-if='this.$root.$data.user'>
+      <h2 v-if='this.userPalettes.length > 0'>Your personal collection</h2>
+      <h2 v-else>Create a palette above</h2>
+    </div>
     <div class='user-palettes'>
       <div class='palette' v-for='palette in userPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
         <div class='heart-select'>
@@ -25,13 +29,13 @@
         </div>
       </div>
     </div>
+    <h2 v-if='this.otherPalettes.length > 0'>Also check out what others have made</h2>
     <div class='other-palettes'>
       <div class='palette' v-for='palette in otherPalettes' :key='palette._id' :class='{selected : selectedP == palette._id}'>
         <div class='heart-select'>
-          <!-- <button :class='{favorited: palette.isFavorite}' @click='toggleFavorite(palette)'>&#10084;</button> -->
           <button class='select-button' @click='selectP(palette._id)'>Select</button> 
         </div>
-        <input class='palette-name' v-model='palette.name' type='text'>
+        <p class='palette-name'>{{ palette.name }}</p>
         <div class='creation-date'>Created on {{ palette.creationDate.slice(0, 10) }}</div>
       </div>
     </div>
@@ -129,8 +133,7 @@ export default {
     },
     async deletePalette(paletteID) {
       try {
-        const response = await axios.delete('/api/palettes/' + paletteID);
-        console.log(response);
+        await axios.delete('/api/palettes/' + paletteID);
         if (paletteID === this.$root.$data.selectedPaletteID) {
           this.$root.$data.selectedPaletteID = 0;
           this.selectedP = 0;
@@ -197,17 +200,18 @@ input {
 }
 
 .heart-select {
-  display: grid;
-  grid-template-columns: 19% 79%;
-  grid-gap: 2%;
   margin-bottom: 15px;
+}
+
+.select-button {
+  width: 100%;
 }
 
 .rename-x {
   margin-top: 8px;
   display: grid;
-  grid-template-columns: 79% 19%;
-  grid-gap: 2%;
+  grid-template-columns: 79% 20%;
+  grid-gap: 1%;
 }
 
 /* .buttons {
@@ -257,6 +261,10 @@ input {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.other-palettes .creation-date {
+  padding: 10px;
 }
 
 /* .favorited {
