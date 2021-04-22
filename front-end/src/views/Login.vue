@@ -113,4 +113,8 @@ TODO
   flex-direction: column;
 }
 
+.register button, .login button {
+  margin-top: auto;
+}
+
 </style>
