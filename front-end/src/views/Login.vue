@@ -62,6 +62,7 @@ export default {
         this.displayName = '';
         this.username = '';
         this.password = '';
+        this.$router.push({ path: '/Select' });
       } catch (error) {
         this.error = error.response.data.message;
         this.$root.$data.user = null;
@@ -80,6 +81,7 @@ export default {
         this.$root.$data.user = response.data.user;
         this.usernameLogin = '';
         this.passwordLogin = '';
+        this.$router.push({ path: '/Select' });
       } catch (error) {
         this.errorLogin = "Error: " + error.response.data.message;
         this.$root.$data.user = null;
