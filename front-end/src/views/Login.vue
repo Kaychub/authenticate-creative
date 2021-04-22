@@ -97,7 +97,7 @@ TODO
 -> Add media queries
 --> When screen gets small, make reg/login stack vertical
 */
-@media (max-width:500px) {
+@media (max-width:550px) {
   .reg-login {
     display: flex;
     flex-direction: column;
@@ -115,7 +115,7 @@ TODO
   }
 }
 
-@media (min-width:500px) {
+@media (min-width:550px) {
   .reg-login {
     display: flex;
     flex-direction: row;
@@ -125,10 +125,16 @@ TODO
   .register, .login {
     border: 1px solid black;
     border-radius: 10px;
-    width: 35%;
+    width: 45%;
 
     display: flex;
     flex-direction: column;
+  }
+  .register {
+    margin-left: 20px;
+  }
+  .login {
+    margin-right: 20px;
   }
 }
 

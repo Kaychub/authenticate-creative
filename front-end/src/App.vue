@@ -83,7 +83,7 @@ export default {
 
 .logo-login {
   display: grid;
-  grid-template-columns: 50% 25% 25%;
+  grid-template-columns: 48% 25% 25%;
   grid-template-areas: "None logo login";
 }
 
