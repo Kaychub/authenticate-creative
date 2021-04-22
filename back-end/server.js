@@ -42,7 +42,6 @@ const paletteSchema = new mongoose.Schema({
   },
   name: String,
   creationDate: Date,
-  isFavorite: Boolean,
 })
 
 const Palette = mongoose.model('Palette', paletteSchema);
@@ -52,7 +51,6 @@ app.post('/api/palettes', validUser, async (req, res) => {
     user: req.user,
     name: req.body.name,
     creationDate: req.body.creationDate,
-    isFavorite: req.body.isFavorite,
   });
   try {
     palette.save();
@@ -123,7 +121,6 @@ app.put('/api/palettes/:paletteID', validUser, async (req, res) => {
     }
     palette.name = req.body.name;
     palette.creationDate = req.body.creationDate;
-    palette.isFavorite = req.body.isFavorite;
     await palette.save();
     res.send(palette);
   } catch (error) {
